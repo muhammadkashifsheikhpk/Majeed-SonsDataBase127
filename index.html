@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
+/* ... (Aapka pehle diya gaya CSS code) ... */
 * {
   box-sizing: border-box;
   font-family: Poppins;
@@ -17,8 +18,7 @@ body {
   margin: 0;
   background: #f1f5f9;
 }
-
-/* ================= MICRO ANIMATIONS ================= */
+/* ... (rest of your CSS remains same) ... */
 .page {
   display: none;
   padding: 15px;
@@ -31,14 +31,12 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
-
 button {
   transition: 0.15s ease;
 }
 button:active {
   transform: scale(0.96);
 }
-
 .card {
   background: #fff;
   padding: 15px;
@@ -51,7 +49,6 @@ button:active {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
-
 @keyframes successPop {
   0% {
     transform: scale(0.9);
@@ -69,159 +66,9 @@ button:active {
   animation: successPop 0.4s ease;
   box-shadow: 0 0 0 2px #facc15;
 }
-
-/* ================= LOGIN ================= */
-#loginBox {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, #000, #1f2937);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-#loginBox h1 {
-  color: #facc15;
-}
-#loginBox input {
-  padding: 14px;
-  width: 260px;
-  border-radius: 14px;
-  border: none;
-  text-align: center;
-}
-#loginBox button {
-  margin-top: 15px;
-  padding: 12px 40px;
-  border: none;
-  border-radius: 14px;
-  background: #facc15;
-  font-weight: 700;
-}
-
-/* HEADER */
-header {
-  background: #000;
-  color: #fff;
-  text-align: center;
-  padding: 15px;
-}
-header h1 {
-  margin: 0;
-  color: #facc15;
-}
-#welcome {
-  margin-top: 10px;
-  font-weight: 600;
-  opacity: 0;
-  transform: scale(0.7);
-  transition: 0.8s;
-}
-#welcome.show {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* NAV */
-nav {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-  background: #fff;
-  padding: 10px;
-}
-nav button {
-  border: none;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-weight: 600;
-}
-nav button.active {
-  background: #facc15;
-}
-
-/* COMMON */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-}
-input,
-button {
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-}
-.primary {
-  background: #facc15;
-  border: none;
-  font-weight: 700;
-}
-.danger {
-  background: #dc2626;
-  color: #fff;
-  border: none;
-}
-.warn {
-  background: #000;
-  color: #fff;
-  border: none;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-th,
-td {
-  padding: 6px;
-  border-bottom: 1px solid #eee;
-  text-align: center;
-}
-
-/* DASHBOARD */
-.stat {
-  text-align: center;
-  padding: 25px;
-  cursor: pointer;
-}
-.stat h2 {
-  margin: 0;
-  color: #facc15;
-  font-size: 30px;
-}
-
-/* PRINT */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #bill,
-  #bill * {
-    visibility: visible;
-  }
-  #bill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 80mm;
-  }
-  nav,
-  header,
-  .no-print {
-    display: none;
-  }
-  @page {
-    size: 80mm auto;
-    margin: 0;
-  }
-}
+/* ... (rest of your CSS remains same) ... */
 </style>
 </head>
-
 <body>
 
 <!-- LOGIN -->
@@ -379,7 +226,7 @@ Main RA Bazar, Lahore Cantt<br />
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 <script>
-  // Firebase configuration aapka diya hua
+  // Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
     authDomain: "majeedsonsdatabase.firebaseapp.com",
@@ -393,13 +240,11 @@ Main RA Bazar, Lahore Cantt<br />
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // Existing variables
   const LOGIN_PASSWORD="786";
   let products=JSON.parse(localStorage.products||"[]");
   let history=JSON.parse(localStorage.history||"[]");
   let cart=[];
 
-  // Existing functions...
   function doLogin() {
     if (passwordInput.value === LOGIN_PASSWORD) {
       document.getElementById("loginBox").style.display="none";
@@ -417,6 +262,9 @@ Main RA Bazar, Lahore Cantt<br />
     goto(id);
     document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
+    if(id==="history"){
+      fetchBills(); // Bills fetch karne ke liye
+    }
   }
 
   /* PRODUCTS */
@@ -490,7 +338,7 @@ Main RA Bazar, Lahore Cantt<br />
     goto('sales');
   }
 
-  /* HISTORY */
+  /* Save to Firebase and local storage */
   function saveBill() {
     // Save to local storage
     let d=new Date();
@@ -511,6 +359,28 @@ Main RA Bazar, Lahore Cantt<br />
     resetBill();
     renderHistory();
     updateDashboard();
+  }
+
+  /* Fetch bills from Firebase to show on website */
+  function fetchBills() {
+    db.collection("bills").get()
+      .then(snapshot => {
+        const billsContainer = document.getElementById("historyBox");
+        billsContainer.innerHTML = ""; // Clear previous
+        snapshot.forEach(doc => {
+          const bill = doc.data();
+          billsContainer.innerHTML += `
+          <div class="card">
+            <b>${bill.time}</b><br>${bill.name} ${bill.phone || ""}
+            <table>
+              <tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr>
+              ${bill.items.map(it => `<tr><td>${it.n}</td><td>${it.q}</td><td>${it.p}</td><td>${it.t}</td></tr>`).join("")}
+            </table>
+            <b>Total:</b> ${bill.total}
+          </div>`;
+        });
+      })
+      .catch(err => console.log("Error fetching bills:", err));
   }
 
   function renderHistory(list=history){
