@@ -17,58 +17,72 @@ body {
   margin: 0;
   background: #f1f5f9;
 }
-/* Micro animations & layout styles (same as your code) */
+
+/* ================= MICRO ANIMATIONS ================= */
 .page {
   display: none;
   padding: 15px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: 0.35s ease;
 }
 .page.active {
   display: block;
-}
-button {
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-}
-.primary {
-  background: #facc15;
-  font-weight: 700;
-}
-.warn {
-  background: #000;
-  color: #fff;
-}
-.danger {
-  background: #dc2626;
-  color: #fff;
-}
-nav {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  background: #fff;
-  padding: 10px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-td, th {
-  padding: 6px;
-  border-bottom: 1px solid #eee;
-  text-align: center;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Login style */
+button {
+  transition: 0.15s ease;
+}
+button:active {
+  transform: scale(0.96);
+}
+
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bill-animate {
+  animation: successPop 0.4s ease;
+  box-shadow: 0 0 0 2px #facc15;
+}
+
+/* ================= LOGIN ================= */
 #loginBox {
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background: linear-gradient(135deg, #000, #1f2937);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   z-index: 9999;
 }
-#loginBox h2 {
+#loginBox h1 {
   color: #facc15;
 }
 #loginBox input {
@@ -77,14 +91,133 @@ td, th {
   border-radius: 14px;
   border: none;
   text-align: center;
-  margin-top: 10px;
 }
 #loginBox button {
   margin-top: 15px;
   padding: 12px 40px;
+  border: none;
   border-radius: 14px;
   background: #facc15;
   font-weight: 700;
+}
+
+/* HEADER */
+header {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+header h1 {
+  margin: 0;
+  color: #facc15;
+}
+#welcome {
+  margin-top: 10px;
+  font-weight: 600;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: 0.8s;
+}
+#welcome.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* NAV */
+nav {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 10px;
+}
+nav button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+nav button.active {
+  background: #facc15;
+}
+
+/* COMMON */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+input,
+button {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+.primary {
+  background: #facc15;
+  border: none;
+  font-weight: 700;
+}
+.danger {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+}
+.warn {
+  background: #000;
+  color: #fff;
+  border: none;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th,
+td {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+/* DASHBOARD */
+.stat {
+  text-align: center;
+  padding: 25px;
+  cursor: pointer;
+}
+.stat h2 {
+  margin: 0;
+  color: #facc15;
+  font-size: 30px;
+}
+
+/* PRINT */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #bill,
+  #bill * {
+    visibility: visible;
+  }
+  #bill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+  }
+  nav,
+  header,
+  .no-print {
+    display: none;
+  }
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
 }
 </style>
 </head>
@@ -92,40 +225,63 @@ td, th {
 
 <!-- LOGIN -->
 <div id="loginBox">
-<h2>MAJEED & SONS</h2>
+<h1>MAJEED & SONS</h1>
 <input id="passwordInput" type="password" placeholder="Password" />
 <button onclick="doLogin()">LOGIN</button>
 </div>
 
-<header style="background:#000; color:#facc15; text-align:center; padding:15px;">
-<h2>MAJEED & SONS</h2>
+<header>
+<h1>MAJEED & SONS</h1>
+<small>GENERAL ORDER SUPPLIERS (SMC-PVT) LTD</small>
+<div id="welcome"></div>
 </header>
 
-<nav>
+<nav class="no-print">
 <button class="active" onclick="openPage('dashboard',this)">Dashboard</button>
 <button onclick="openPage('products',this)">Products</button>
 <button onclick="openPage('sales',this)">Sales</button>
 <button onclick="openPage('bill',this)">Bill</button>
-<button onclick="openPage('history',this)">Bills</button>
+<button onclick="openPage('history',this)">Bills History</button>
 </nav>
 
-<!-- Dashboard -->
+<!-- DASHBOARD -->
 <div id="dashboard" class="page active">
-<div class="card">
-<h3>Total Products: <span id="dProducts">0</span></h3>
-<h3>Total Bills: <span id="dBills">0</span></h3>
-<h3>Total Sales: <span id="dSales">0</span></h3>
+<div class="grid">
+<div class="card stat" onclick="goto('products')">
+<h2 id="dProducts">0</h2><small>Total Products</small>
 </div>
+<div class="card stat" onclick="goto('history')">
+<h2 id="dBills">0</h2><small>Total Bills</small>
+</div>
+<div class="card stat">
+<h2 id="dSales">0</h2><small>Total Sales</small>
+</div>
+</div>
+<br />
+<button class="warn" onclick="clearAllData()">⚠ CLEAR ALL DASHBOARD DATA</button>
 </div>
 
 <!-- PRODUCTS -->
 <div id="products" class="page">
 <div class="card">
+<input placeholder="Search product" oninput="renderProducts(this.value)" />
+<div class="grid">
 <input id="pname" placeholder="Product Name" />
-<input id="psale" placeholder="Price" />
+<input id="pcost" placeholder="Cost Price" />
+<input id="psale" placeholder="Sale Price" />
+<input id="pmin" placeholder="Minimum Price" />
 <button class="primary" onclick="addProduct()">Save</button>
+</div>
 <table>
-<thead><tr><th>Name</th><th>Price</th><th>❌</th></tr></thead>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cost</th>
+<th>Sale</th>
+<th>Min</th>
+<th>❌</th>
+</tr>
+</thead>
 <tbody id="plist"></tbody>
 </table>
 </div>
@@ -135,16 +291,29 @@ td, th {
 <div id="sales" class="page">
 <div class="card">
 <input id="cname" placeholder="Customer Name" />
-<input id="sname" placeholder="Product" />
+<input id="cphone" placeholder="Customer Number (optional)" />
+<input id="sname" placeholder="Product name" />
+<div class="grid">
 <input id="sprice" placeholder="Price" />
 <input id="sqty" placeholder="Qty" />
 <button class="primary" onclick="addSale()">Add</button>
+</div>
+
 <table>
-<thead><tr><th>Item</th><th>Qty</th><th>Total</th></tr></thead>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Total</th>
+<th>❌</th>
+</tr>
+</thead>
 <tbody id="slist"></tbody>
 </table>
-<b>Total: <span id="stotal">0</span></b><br><br>
-<button class="primary" onclick="saveBill()">Save Bill</button>
+
+<b>Total: <span id="stotal">0</span></b><br /><br />
+<button class="primary" onclick="generateBill()">Generate Bill</button>
 </div>
 </div>
 
@@ -159,18 +328,30 @@ Main RA Bazar, Lahore Cantt<br />
 📞 0328-4161906 | 0301-0429227
 <hr />
 </div>
+
 <b>Date:</b> <span id="bdate"></span><br />
 <b>Customer:</b> <span id="bcustomer"></span></b><br />
-<b>Number:</b> <span id="bphone"></span></b>
+<b>Number:</b> <span id="bphone"></span>
+
 <table>
-<thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Total</th>
+</tr>
+</thead>
 <tbody id="bitems"></tbody>
 </table>
+
 <h3>Total: <span id="btotal"></span></h3>
 <h4>Paid: <span id="bpaid"></span></h4>
 <h4>Remaining: <span id="bremain"></span></h4>
+
 <b style="font-size:14px">THANKS FOR SHOPPING!</b>
 </div>
+
 <button class="primary no-print" onclick="saveBill()">Save</button>
 <button class="warn no-print" onclick="resetBill()">Reset Bill</button>
 <button class="primary no-print" onclick="window.print()">Print</button>
@@ -190,54 +371,84 @@ Main RA Bazar, Lahore Cantt<br />
 </div>
 
 <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+<!-- Updated import style as per your instructions -->
+<script type="module">
+  // Import the functions you need from the SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
+    authDomain: "majeedsonsdatabase.firebaseapp.com",
+    projectId: "majeedsonsdatabase",
+    storageBucket: "majeedsonsdatabase.firebasestorage.app",
+    messagingSenderId: "810169181128",
+    appId: "1:810169181128:web:74f54e335be0f59db416fd",
+    measurementId: "G-J4TS7FVYHR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  // Save bill to Firebase function
+  export function saveBillToFirebase(billData) {
+    import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js").then(({ getFirestore, collection, addDoc }) => {
+      const db = getFirestore(app);
+      collection(db, "bills").add(billData)
+        .then(() => {
+          // Optional: you can handle success here
+          alert("Bill saved to Firebase");
+        })
+        .catch((err) => {
+          console.error("Error saving bill:", err);
+        });
+    });
+  }
+</script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
-  authDomain: "majeedsonsdatabase.firebaseapp.com",
-  projectId: "majeedsonsdatabase",
-  storageBucket: "majeedsonsdatabase.appspot.com",
-  messagingSenderId: "810169181128",
-  appId: "1:810169181128:web:74f54e335be0f59db416fd"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
 /* ===== APP LOGIC ===== */
 const LOGIN_PASSWORD="786";
 let products=JSON.parse(localStorage.products||"[]");
+let history=JSON.parse(localStorage.history||"[]");
 let cart=[];
-let history=[];
 
 function doLogin() {
-  if (passwordInput.value === LOGIN_PASSWORD) {
+  if (passwordInput.value===LOGIN_PASSWORD) {
     document.getElementById("loginBox").style.display = "none";
   }
 }
 
+function goto(p) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.getElementById(p).classList.add('active');
+}
+
 function openPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  goto(id);
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 
 /* PRODUCTS */
 function addProduct() {
-  products.push({ n: pname.value, p: psale.value });
+  products.push({ n: pname.value, c: pcost.value, s: psale.value, m: pmin.value });
   localStorage.setItem('products', JSON.stringify(products));
   renderProducts();
   updateDashboard();
 }
-function renderProducts() {
+function renderProducts(q="") {
   document.getElementById("plist").innerHTML = "";
-  products.forEach((p, i) => {
+  products.filter(p => p.n.toLowerCase().includes(q.toLowerCase()))
+  .forEach((p,i) => {
     document.getElementById("plist").innerHTML += `
       <tr>
         <td>${p.n}</td>
-        <td>${p.p}</td>
+        <td>${p.c}</td>
+        <td>${p.s}</td>
+        <td>${p.m}</td>
         <td><button class="danger" onclick="products.splice(${i},1);localStorage.setItem('products', JSON.stringify(products));renderProducts();updateDashboard()">❌</button></td>
       </tr>`;
   });
@@ -245,13 +456,12 @@ function renderProducts() {
 
 /* SALES */
 function addSale() {
-  let total = Number(sprice.value) * Number(sqty.value);
-  cart.push({ n: sname.value, q: sqty.value, t: total });
+  let t=Number(sprice.value)*Number(sqty.value);
+  cart.push({ n: sname.value, q: sqty.value, t });
   renderSales();
 }
 function renderSales() {
-  let sum = 0;
-  document.getElementById("slist").innerHTML = "";
+  let sum=0; document.getElementById("slist").innerHTML = "";
   cart.forEach((i, x) => {
     sum += i.t;
     document.getElementById("slist").innerHTML += `
@@ -266,75 +476,61 @@ function renderSales() {
   calcRemain();
 }
 function calcRemain() {
-  document.getElementById("remain").innerText = Number(document.getElementById("stotal").innerText) - (Number(document.getElementById("paid").value) || 0);
+  document.getElementById("remain").innerText=Number(document.getElementById("stotal").innerText) - (Number(document.getElementById("paid").value) || 0);
 }
 
-/* SAVE BILL - with Firebase */
+/* BILL AND Firebase Save */
 function generateBill() {
-  document.getElementById("bdate").innerText = new Date().toLocaleString();
-  document.getElementById("bcustomer").innerText = document.getElementById("cname").value;
-  document.getElementById("bphone").innerText = document.getElementById("cphone").value || "-";
-  let bitems = document.getElementById("bitems");
-  bitems.innerHTML = "";
-  cart.forEach(i => bitems.innerHTML += `
-    <tr>
-      <td>${i.n}</td>
-      <td>${i.q}</td>
-      <td>${i.p}</td>
-      <td>${i.t}</td>
-    </tr>`);
-  document.getElementById("btotal").innerText = document.getElementById("stotal").innerText;
-  document.getElementById("bpaid").innerText = document.getElementById("paid").value || 0;
-  document.getElementById("bremain").innerText = document.getElementById("remain").innerText;
-  // Save to Firebase
-  saveBillToFirebase({
-    date: new Date().toISOString(),
-    customer: document.getElementById("bcustomer").innerText,
-    phone: document.getElementById("bphone").innerText,
-    items: [...cart],
-    total: document.getElementById("stotal").innerText,
-    paid: document.getElementById("paid").value,
-    remain: document.getElementById("remain").innerText
-  });
-  // Switch to bill page
-  let bill = document.getElementById("billCard");
-  bill.classList.remove("bill-animate");
-  setTimeout(() => bill.classList.add("bill-animate"), 10);
-  goto('bill');
-}
-
-/* Save bill to Firebase */
-function saveBillToFirebase(billData) {
-  firebase.firestore().collection("bills").add(billData)
-    .then(() => {
-      // Update local history
-      history.push(billData);
-      localStorage.setItem('history', JSON.stringify(history));
-      renderHistory();
-      alert("✅ Bill saved & synced with Firebase");
-    })
-    .catch((err) => {
-      console.error("Error saving bill to Firebase:", err);
+  document.getElementById("bdate").innerText=new Date().toLocaleString();
+  document.getElementById("bcustomer").innerText=document.getElementById("cname").value;
+  document.getElementById("bphone").innerText=document.getElementById("cphone").value||"-";
+  let bitems=document.getElementById("bitems");
+  bitems.innerHTML="";
+  cart.forEach(i=>bitems.innerHTML+=`
+    <tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`);
+  document.getElementById("btotal").innerText=document.getElementById("stotal").innerText;
+  document.getElementById("bpaid").innerText=document.getElementById("paid").value||0;
+  document.getElementById("bremain").innerText=document.getElementById("remain").innerText;
+  
+  // Save bill to Firebase
+  import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js").then(({ getFirestore, collection, addDoc }) => {
+    const db = getFirestore(app);
+    collection(db, "bills").add({
+      date: new Date().toISOString(),
+      customer: document.getElementById("bcustomer").innerText,
+      phone: document.getElementById("bphone").innerText,
+      items: [...cart],
+      total: document.getElementById("stotal").innerText,
+      paid: document.getElementById("paid").innerText,
+      remain: document.getElementById("bremain").innerText
+    }).then(() => {
+      alert("Bill saved to Firebase");
+    }).catch((err) => {
+      console.error("Error saving bill:", err);
     });
+  });
+  
+  let bill=document.getElementById("billCard");
+  bill.classList.remove("bill-animate");
+  setTimeout(()=>bill.classList.add("bill-animate"),10);
 }
 
-/* Reset */
+// Reset
 function resetBill() {
-  cart = [];
-  renderSales();
-  document.getElementById("cname").value = "";
-  document.getElementById("cphone").value = "";
-  document.getElementById("paid").value = "";
+  cart=[]; renderSales();
+  document.getElementById("cname").value="";
+  document.getElementById("cphone").value="";
+  document.getElementById("paid").value="";
   goto('sales');
 }
 
-/* HISTORY */
+/* History functions */
 function saveBill() {
-  let d = new Date();
-  const bill = {
+  let d=new Date();
+  const bill={
     name: document.getElementById("cname").value,
     phone: document.getElementById("cphone").value,
-    date: d.toISOString().slice(0, 10),
+    date: d.toISOString().slice(0,10),
     time: d.toLocaleString(),
     items: [...cart],
     total: document.getElementById("stotal").innerText
@@ -343,93 +539,97 @@ function saveBill() {
   history.push(bill);
   localStorage.setItem('history', JSON.stringify(history));
   // Save to Firebase
-  saveBillToFirebase(bill);
+  import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js").then(({ getFirestore, collection, addDoc }) => {
+    const db = getFirestore(app);
+    collection(db, "bills").add(bill).then(() => {
+      alert("Bill saved to Firebase");
+    }).catch((err) => {
+      console.error("Error saving bill:", err);
+    });
+  });
   resetBill();
   renderHistory();
   updateDashboard();
 }
 
-/* Render history from local storage & Firebase data */
+/* Render history from local & Firebase data (if needed) */
 function renderHistory() {
-  document.getElementById("historyBox").innerHTML = "";
-  // show local history
+  document.getElementById("historyBox").innerHTML="";
+  // Show local history
   history.forEach(h => {
-    document.getElementById("historyBox").innerHTML += `
+    document.getElementById("historyBox").innerHTML+=`
     <div class="card">
-      <b>${h.time}</b><br>${h.name} ${h.phone || ""}<br>
-      Total: ${h.total}
+      <b>${h.time}</b><br>${h.name} ${h.phone||""}
+      <table>
+        <tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr>
+        ${h.items.map(it=>`<tr><td>${it.n}</td><td>${it.q}</td><td>${it.p}</td><td>${it.t}</td></tr>`).join("")}
+      </table>
+      <b>Total:</b> ${h.total}
     </div>`;
   });
-  // Fetch and merge Firebase bills (optional: you can also replace local with Firebase only)
-  // For now, assuming local is primary
+  // You can also fetch and merge Firebase data if needed
 }
 
-/* Fetch existing bills from Firebase on load */
-firebase.firestore().collection("bills").get().then(snap => {
-  snap.forEach(doc => {
-    const data = doc.data();
-    // Optional: merge with local 'history' array if needed
-    // For now, just show in UI
-    // You may want to update local 'history' array if needed
+/* Load existing bills from Firebase on page load and merge into local history if desired */
+import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js").then(({ getFirestore, collection, getDocs }) => {
+  const db = getFirestore(app);
+  getDocs(collection(db, "bills")).then(snapshot => {
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      // Optionally merge or just display
+      // For now, just keep local history as primary
+    });
   });
-  // You can call renderHistory() here if you want to show Firebase data
 });
 
-// Additional functions
+/* Additional functions for filtering, clearing, dashboard update */
 function filterHistory() {
   // Your filtering code if needed
 }
 function clearAllBills() {
   if (confirm("Delete ALL bills?")) {
-    // Delete all bills in Firebase
-    firebase.firestore().collection("bills").get().then(snap => {
-      snap.forEach(doc => doc.ref.delete());
+    // Delete all bills from Firebase
+    import("https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js").then(({ getFirestore, collection, getDocs, deleteDoc, doc }) => {
+      const db = getFirestore(app);
+      getDocs(collection(db, "bills")).then(snapshot => {
+        snapshot.forEach(d => deleteDoc(d.ref));
+      });
     });
-    // Clear local
+    // Clear local storage
     localStorage.removeItem('history');
-    history = [];
+    history=[];
     renderHistory();
   }
 }
 function clearAllData() {
   if (confirm("DELETE ALL DATA?")) {
     localStorage.clear();
-    products = [];
-    history = [];
-    cart = [];
+    products=[]; history=[]; cart=[];
     renderProducts(); renderHistory(); updateDashboard();
   }
 }
 function updateDashboard() {
-  document.getElementById("dProducts").innerText = products.length;
-  document.getElementById("dBills").innerText = history.length;
-  // Sum total sales from history
-  let totalSales = history.reduce((a, h) => a + Number(h.total || 0), 0);
-  document.getElementById("dSales").innerText = totalSales;
+  document.getElementById("dProducts").innerText=products.length;
+  document.getElementById("dBills").innerText=history.length;
+  let totalSales=history.reduce((a,h)=>a+Number(h.total||0),0);
+  document.getElementById("dSales").innerText=totalSales;
 }
 
-// Load products from local storage initially
+// Initial load
 renderProducts();
+renderHistory();
 updateDashboard();
 </script>
 
 <script>
-// Helper functions for page navigation
-function goto(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-}
-function openPage(id, btn) {
-  goto(id);
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-// Login
 function doLogin() {
   if (document.getElementById('passwordInput').value === "786") {
     document.getElementById('loginBox').style.display = 'none';
   }
+}
+function openPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 </script>
 
