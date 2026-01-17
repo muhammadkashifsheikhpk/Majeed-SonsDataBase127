@@ -5,63 +5,219 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MAJEED & SONS | GENERAL ORDER SUPPLIERS</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
-*{box-sizing:border-box;font-family:Poppins}
-body{margin:0;background:#f1f5f9}
+* {
+  box-sizing: border-box;
+  font-family: Poppins;
+}
+body {
+  margin: 0;
+  background: #f1f5f9;
+}
 
-/* PAGES */
-.page{display:none;padding:15px;opacity:0;transform:translateY(15px);transition:.35s}
-.page.active{display:block;opacity:1;transform:none}
+/* ================= MICRO ANIMATIONS ================= */
+.page {
+  display: none;
+  padding: 15px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: 0.35s ease;
+}
+.page.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
 
-/* BUTTON */
-button{transition:.15s}
-button:active{transform:scale(.96)}
+button {
+  transition: 0.15s ease;
+}
+button:active {
+  transform: scale(0.96);
+}
 
-.card{background:#fff;padding:15px;border-radius:18px;margin-bottom:15px;box-shadow:0 10px 25px rgba(0,0,0,.08)}
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
 
-#loginBox{
-position:fixed;inset:0;
-background:linear-gradient(135deg,#000,#1f2937);
-color:#fff;display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:9999}
+@keyframes successPop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bill-animate {
+  animation: successPop 0.4s ease;
+  box-shadow: 0 0 0 2px #facc15;
+}
 
-#loginBox h1{color:#facc15}
-#loginBox input{padding:14px;width:260px;border-radius:14px;border:none;text-align:center}
-#loginBox button{margin-top:15px;padding:12px 40px;border:none;border-radius:14px;background:#facc15;font-weight:700}
+/* ================= LOGIN ================= */
+#loginBox {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #000, #1f2937);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#loginBox h1 {
+  color: #facc15;
+}
+#loginBox input {
+  padding: 14px;
+  width: 260px;
+  border-radius: 14px;
+  border: none;
+  text-align: center;
+}
+#loginBox button {
+  margin-top: 15px;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 14px;
+  background: #facc15;
+  font-weight: 700;
+}
 
-header{background:#000;color:#fff;text-align:center;padding:15px}
-header h1{margin:0;color:#facc15}
-#welcome{margin-top:10px;font-weight:600;opacity:0;transform:scale(.7);transition:.8s}
-#welcome.show{opacity:1;transform:scale(1)}
+/* HEADER */
+header {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+header h1 {
+  margin: 0;
+  color: #facc15;
+}
+#welcome {
+  margin-top: 10px;
+  font-weight: 600;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: 0.8s;
+}
+#welcome.show {
+  opacity: 1;
+  transform: scale(1);
+}
 
-nav{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;background:#fff;padding:10px}
-nav button{border:none;padding:8px 16px;border-radius:12px;font-weight:600}
-nav button.active{background:#facc15}
+/* NAV */
+nav {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 10px;
+}
+nav button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+nav button.active {
+  background: #facc15;
+}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-input,button{padding:10px;border-radius:12px;border:1px solid #ccc}
+/* COMMON */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+input,
+button {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+.primary {
+  background: #facc15;
+  border: none;
+  font-weight: 700;
+}
+.danger {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+}
+.warn {
+  background: #000;
+  color: #fff;
+  border: none;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th,
+td {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
 
-.primary{background:#facc15;border:none;font-weight:700}
-.warn{background:#000;color:#fff;border:none}
-.danger{background:#dc2626;color:#fff;border:none}
+/* DASHBOARD */
+.stat {
+  text-align: center;
+  padding: 25px;
+  cursor: pointer;
+}
+.stat h2 {
+  margin: 0;
+  color: #facc15;
+  font-size: 30px;
+}
 
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
-
-.stat{text-align:center;padding:25px}
-.stat h2{margin:0;color:#facc15;font-size:30px}
-
-@media print{
-body *{visibility:hidden}
-#bill,#bill *{visibility:visible}
-#bill{position:absolute;left:0;top:0;width:80mm}
-nav,header,.no-print{display:none}
-@page{size:80mm auto;margin:0}
+/* PRINT */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #bill,
+  #bill * {
+    visibility: visible;
+  }
+  #bill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+  }
+  nav,
+  header,
+  .no-print {
+    display: none;
+  }
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
 }
 </style>
 </head>
@@ -71,7 +227,7 @@ nav,header,.no-print{display:none}
 <!-- LOGIN -->
 <div id="loginBox">
 <h1>MAJEED & SONS</h1>
-<input id="passwordInput" type="password" placeholder="Password">
+<input id="passwordInput" type="password" placeholder="Password" />
 <button onclick="doLogin()">LOGIN</button>
 </div>
 
@@ -92,25 +248,41 @@ nav,header,.no-print{display:none}
 <!-- DASHBOARD -->
 <div id="dashboard" class="page active">
 <div class="grid">
-<div class="card stat"><h2 id="dProducts">0</h2><small>Total Products</small></div>
-<div class="card stat"><h2 id="dBills">0</h2><small>Total Bills</small></div>
-<div class="card stat"><h2 id="dSales">0</h2><small>Total Sales</small></div>
+<div class="card stat" onclick="goto('products')">
+<h2 id="dProducts">0</h2><small>Total Products</small>
 </div>
+<div class="card stat" onclick="goto('history')">
+<h2 id="dBills">0</h2><small>Total Bills</small>
+</div>
+<div class="card stat">
+<h2 id="dSales">0</h2><small>Total Sales</small>
+</div>
+</div>
+<br />
+<button class="warn" onclick="clearAllData()">⚠ CLEAR ALL DASHBOARD DATA</button>
 </div>
 
 <!-- PRODUCTS -->
 <div id="products" class="page">
 <div class="card">
-<input placeholder="Search product" oninput="renderProducts(this.value)">
+<input placeholder="Search product" oninput="renderProducts(this.value)" />
 <div class="grid">
-<input id="pname" placeholder="Product Name">
-<input id="pcost" placeholder="Cost Price">
-<input id="psale" placeholder="Sale Price">
-<input id="pmin" placeholder="Minimum Price">
+<input id="pname" placeholder="Product Name" />
+<input id="pcost" placeholder="Cost Price" />
+<input id="psale" placeholder="Sale Price" />
+<input id="pmin" placeholder="Minimum Price" />
 <button class="primary" onclick="addProduct()">Save</button>
 </div>
 <table>
-<thead><tr><th>Name</th><th>Cost</th><th>Sale</th><th>Min</th><th>❌</th></tr></thead>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cost</th>
+<th>Sale</th>
+<th>Min</th>
+<th>❌</th>
+</tr>
+</thead>
 <tbody id="plist"></tbody>
 </table>
 </div>
@@ -119,21 +291,32 @@ nav,header,.no-print{display:none}
 <!-- SALES -->
 <div id="sales" class="page">
 <div class="card">
-<input id="cname" placeholder="Customer Name">
-<input id="cphone" placeholder="Customer Number">
-<input id="sname" placeholder="Product name">
+<input id="cname" placeholder="Customer Name" />
+<input id="cphone" placeholder="Customer Number (optional)" />
+<input id="sname" placeholder="Product name" />
 <div class="grid">
-<input id="sprice" placeholder="Price">
-<input id="sqty" placeholder="Qty">
+<input id="sprice" placeholder="Price" />
+<input id="sqty" placeholder="Qty" />
 <button class="primary" onclick="addSale()">Add</button>
 </div>
+
 <table>
-<thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th><th>❌</th></tr></thead>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Total</th>
+<th>❌</th>
+</tr>
+</thead>
 <tbody id="slist"></tbody>
 </table>
-<b>Total: <span id="stotal">0</span></b><br>
-<input id="paid" placeholder="Paid Amount" oninput="calcRemain()"><br>
-<b>Remaining: <span id="remain">0</span></b><br><br>
+
+<b>Total: <span id="stotal">0</span></b><br />
+<input id="paid" placeholder="Paid Amount" oninput="calcRemain()" /><br />
+<b>Remaining: <span id="remain">0</span></b><br /><br />
+
 <button class="primary" onclick="generateBill()">Generate Bill</button>
 </div>
 </div>
@@ -142,25 +325,52 @@ nav,header,.no-print{display:none}
 <div id="bill" class="page">
 <div class="card" id="billCard">
 <div style="text-align:center;font-size:12px">
-<b>MAJEED & SONS</b><br>GENERAL ORDER SUPPLIERS<br><hr>
+<b>MAJEED & SONS</b><br />
+GENERAL ORDER SUPPLIERS (SMC-PVT) LTD<br />
+Shop #127, Near Hakeem Shafique<br />
+Main RA Bazar, Lahore Cantt<br />
+📞 0328-4161906 | 0301-0429227
+<hr />
 </div>
-<b>Date:</b> <span id="bdate"></span><br>
-<b>Customer:</b> <span id="bcustomer"></span><br>
+
+<b>Date:</b> <span id="bdate"></span><br />
+<b>Customer:</b> <span id="bcustomer"></span><br />
 <b>Number:</b> <span id="bphone"></span>
+
 <table>
-<thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Rate</th>
+<th>Total</th>
+</tr>
+</thead>
 <tbody id="bitems"></tbody>
 </table>
+
 <h3>Total: <span id="btotal"></span></h3>
 <h4>Paid: <span id="bpaid"></span></h4>
 <h4>Remaining: <span id="bremain"></span></h4>
+
+<b style="font-size:14px">THANKS FOR SHOPPING!</b>
 </div>
+
 <button class="primary no-print" onclick="saveBill()">Save</button>
-<button class="warn no-print" onclick="window.print()">Print</button>
+<button class="warn no-print" onclick="resetBill()">Reset Bill</button>
+<button class="primary no-print" onclick="window.print()">Print</button>
 </div>
 
 <!-- HISTORY -->
 <div id="history" class="page">
+<div class="card">
+<div class="grid">
+<input placeholder="Search Name" oninput="filterHistory()" />
+<input type="date" id="hdate" onchange="filterHistory()" />
+</div>
+<br />
+<button class="danger" onclick="clearAllBills()">🗑 CLEAR ALL BILLS</button>
+</div>
 <div id="historyBox"></div>
 </div>
 
@@ -171,110 +381,201 @@ let history=JSON.parse(localStorage.history||"[]");
 let cart=[];
 
 function doLogin(){
- if(passwordInput.value===LOGIN_PASSWORD){
-  loginBox.style.display="none";
-  welcome.innerHTML="Welcome";
-  welcome.classList.add("show");
- }
+  if(passwordInput.value===LOGIN_PASSWORD){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("welcome").innerHTML="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْم<br>Welcome";
+    setTimeout(()=>document.getElementById("welcome").classList.add("show"),100);
+  }
 }
 
-function openPage(id,b){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
- b.classList.add('active');
+function goto(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(p).classList.add('active');
+}
+
+function openPage(id,btn){
+  goto(id);
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 /* PRODUCTS */
 function addProduct(){
- products.push({n:pname.value,c:pcost.value,s:psale.value,m:pmin.value});
- localStorage.products=JSON.stringify(products);
- renderProducts();updateDashboard();
+  products.push({n:pname.value,c:pcost.value,s:psale.value,m:pmin.value});
+  localStorage.products=JSON.stringify(products);
+  renderProducts();
+  updateDashboard();
 }
 function renderProducts(q=""){
- plist.innerHTML="";
- products.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()))
- .forEach((p,i)=>plist.innerHTML+=`
- <tr>
- <td>${p.n}</td><td>${p.c}</td><td>${p.s}</td><td>${p.m}</td>
- <td><button class="danger" onclick="products.splice(${i},1);localStorage.products=JSON.stringify(products);renderProducts();updateDashboard()">❌</button></td>
- </tr>`);
+  document.getElementById("plist").innerHTML="";
+  products.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()))
+  .forEach((p,i)=>document.getElementById("plist").innerHTML+=`
+  <tr>
+    <td>${p.n}</td>
+    <td>${p.c}</td>
+    <td>${p.s}</td>
+    <td>${p.m}</td>
+    <td><button class="danger" onclick="products.splice(${i},1);localStorage.products=JSON.stringify(products);renderProducts();updateDashboard()">❌</button></td>
+  </tr>`);
 }
 
 /* SALES */
 function addSale(){
- let t=sprice.value*sqty.value;
- cart.push({n:sname.value,q:sqty.value,p:sprice.value,t});
- renderSales();
+  let t=Number(sprice.value)*Number(sqty.value);
+  cart.push({n:sname.value,q:sqty.value,p:sprice.value,t});
+  renderSales();
 }
 function renderSales(){
- let s=0;slist.innerHTML="";
- cart.forEach((i,x)=>{
- s+=i.t;
- slist.innerHTML+=`
- <tr>
- <td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td>
- <td><button onclick="cart.splice(${x},1);renderSales()">❌</button></td>
- </tr>`;
- });
- stotal.innerText=s;calcRemain();
+  let sum=0; document.getElementById("slist").innerHTML="";
+  cart.forEach((i,x)=>{
+    sum+=i.t;
+    document.getElementById("slist").innerHTML+=`
+    <tr>
+      <td>${i.n}</td>
+      <td>${i.q}</td>
+      <td>${i.p}</td>
+      <td>${i.t}</td>
+      <td><button onclick="cart.splice(${x},1);renderSales()">❌</button></td>
+    </tr>`;
+  });
+  document.getElementById("stotal").innerText=sum;
+  calcRemain();
 }
-function calcRemain(){
- remain.innerText=stotal.innerText-(paid.value||0);
-}
+function calcRemain(){document.getElementById("remain").innerText=Number(document.getElementById("stotal").innerText)-(Number(document.getElementById("paid").value)||0);}
 
 /* BILL */
 function generateBill(){
- bdate.innerText=new Date().toLocaleString();
- bcustomer.innerText=cname.value;
- bphone.innerText=cphone.value||"-";
- bitems.innerHTML="";
- cart.forEach(i=>bitems.innerHTML+=`
- <tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`);
- btotal.innerText=stotal.innerText;
- bpaid.innerText=paid.value||0;
- bremain.innerText=remain.innerText;
- openPage('bill',document.querySelectorAll('nav button')[3]);
+  document.getElementById("bdate").innerText=new Date().toLocaleString();
+  document.getElementById("bcustomer").innerText=document.getElementById("cname").value;
+  document.getElementById("bphone").innerText=document.getElementById("cphone").value||"-";
+  let bitems=document.getElementById("bitems");
+  bitems.innerHTML="";
+  cart.forEach(i=>bitems.innerHTML+=`
+    <tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`);
+  document.getElementById("btotal").innerText=document.getElementById("stotal").innerText;
+  document.getElementById("bpaid").innerText=document.getElementById("paid").value||0;
+  document.getElementById("bremain").innerText=document.getElementById("remain").innerText;
+  goto('bill');
+
+  let bill=document.getElementById("billCard");
+  bill.classList.remove("bill-animate");
+  setTimeout(()=>bill.classList.add("bill-animate"),10);
 }
 
-function saveBill(){
- history.push({time:new Date().toLocaleString(),items:cart,total:stotal.innerText});
- localStorage.history=JSON.stringify(history);
- cart=[];renderHistory();updateDashboard();
+function resetBill(){
+  cart=[]; renderSales();
+  document.getElementById("cname").value="";
+  document.getElementById("cphone").value="";
+  document.getElementById("paid").value="";
+  goto('sales');
 }
 
 /* HISTORY */
-function renderHistory(){
- historyBox.innerHTML="";
- history.forEach(h=>historyBox.innerHTML+=`
- <div class="card"><b>${h.time}</b>
- <table>${h.items.map(i=>`<tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`).join("")}</table>
- <b>Total:</b>${h.total}</div>`);
-}
-function updateDashboard(){
- dProducts.innerText=products.length;
- dBills.innerText=history.length;
- dSales.innerText=history.reduce((a,b)=>a+Number(b.total||0),0);
+function saveBill(){
+  let d=new Date();
+  history.push({
+    name: document.getElementById("cname").value,
+    phone: document.getElementById("cphone").value,
+    date: d.toISOString().slice(0,10),
+    time: d.toLocaleString(),
+    items: [...cart],
+    total: document.getElementById("stotal").innerText
+  });
+  localStorage.history=JSON.stringify(history);
+  resetBill();
+  renderHistory();
+  updateDashboard();
 }
 
-renderProducts();renderHistory();updateDashboard();
+function renderHistory(list=history){
+  document.getElementById("historyBox").innerHTML="";
+  list.forEach((h,i)=>{
+    document.getElementById("historyBox").innerHTML+=`
+    <div class="card">
+      <b>${h.time}</b><br>${h.name} ${h.phone||""}
+      <table>
+        <tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr>
+        ${h.items.map(it=>`<tr><td>${it.n}</td><td>${it.q}</td><td>${it.p}</td><td>${it.t}</td></tr>`).join("")}
+      </table>
+      <b>Total:</b> ${h.total}
+      <button class="danger" onclick="history.splice(${i},1);localStorage.history=JSON.stringify(history);renderHistory();updateDashboard()">Delete</button>
+    </div>`;
+  });
+}
+
+function filterHistory(){
+  let name=document.querySelector("#history input").value.toLowerCase();
+  let date=document.getElementById("hdate").value;
+  renderHistory(history.filter(h=>
+    (!name||h.name.toLowerCase().includes(name)) &&
+    (!date||h.date===date)
+  ));
+}
+
+function clearAllBills(){
+  if(confirm("Delete ALL bills?")){
+    history=[]; localStorage.removeItem("history");
+    renderHistory(); updateDashboard();
+  }
+}
+
+function clearAllData(){
+  if(confirm("DELETE ALL DATA?")){
+    localStorage.clear();
+    products=[]; history=[]; cart=[];
+    renderProducts(); renderHistory(); updateDashboard();
+  }
+}
+
+function updateDashboard(){
+  document.getElementById("dProducts").innerText=products.length;
+  document.getElementById("dBills").innerText=history.length;
+  document.getElementById("dSales").innerText=history.reduce((a,b)=>a+Number(b.total||0),0);
+}
+
+renderProducts();
+renderHistory();
+updateDashboard();
 </script>
 
-<!-- FIREBASE (SAFE – NO MODULE) -->
+<!-- Firebase SDK -->
+<!-- Import the functions you need from the SDKs you need -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
+    authDomain: "majeedsonsdatabase.firebaseapp.com",
+    projectId: "majeedsonsdatabase",
+    storageBucket: "majeedsonsdatabase.firebasestorage.app",
+    messagingSenderId: "810169181128",
+    appId: "1:810169181128:web:74f54e335be0f59db416fd",
+    measurementId: "G-J4TS7FVYHR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics-compat.js"></script>
+
 <script>
-const firebaseConfig={
- apiKey:"AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
- authDomain:"majeedsonsdatabase.firebaseapp.com",
- projectId:"majeedsonsdatabase",
- storageBucket:"majeedsonsdatabase.firebasestorage.app",
- messagingSenderId:"810169181128",
- appId:"1:810169181128:web:74f54e335be0f59db416fd",
- measurementId:"G-J4TS7FVYHR"
-};
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
+    authDomain: "majeedsonsdatabase.firebaseapp.com",
+    projectId: "majeedsonsdatabase",
+    storageBucket: "majeedsonsdatabase.firebasestorage.app",
+    messagingSenderId: "810169181128",
+    appId: "1:810169181128:web:74f54e335be0f59db416fd",
+    measurementId: "G-J4TS7FVYHR"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 </script>
 
 </body>
