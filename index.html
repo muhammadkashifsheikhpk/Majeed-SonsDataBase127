@@ -7,35 +7,62 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
-<!-- ====== CSS (UNCHANGED) ====== -->
 <style>
 *{box-sizing:border-box;font-family:Poppins}
 body{margin:0;background:#f1f5f9}
+
+/* PAGES */
 .page{display:none;padding:15px;opacity:0;transform:translateY(15px);transition:.35s}
 .page.active{display:block;opacity:1;transform:none}
-button{transition:.15s}button:active{transform:scale(.96)}
+
+/* BUTTON */
+button{transition:.15s}
+button:active{transform:scale(.96)}
+
 .card{background:#fff;padding:15px;border-radius:18px;margin-bottom:15px;box-shadow:0 10px 25px rgba(0,0,0,.08)}
-.card:hover{transform:translateY(-3px)}
-#loginBox{position:fixed;inset:0;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+
+#loginBox{
+position:fixed;inset:0;
+background:linear-gradient(135deg,#000,#1f2937);
+color:#fff;display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:9999}
+
 #loginBox h1{color:#facc15}
 #loginBox input{padding:14px;width:260px;border-radius:14px;border:none;text-align:center}
 #loginBox button{margin-top:15px;padding:12px 40px;border:none;border-radius:14px;background:#facc15;font-weight:700}
+
 header{background:#000;color:#fff;text-align:center;padding:15px}
 header h1{margin:0;color:#facc15}
 #welcome{margin-top:10px;font-weight:600;opacity:0;transform:scale(.7);transition:.8s}
 #welcome.show{opacity:1;transform:scale(1)}
+
 nav{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;background:#fff;padding:10px}
 nav button{border:none;padding:8px 16px;border-radius:12px;font-weight:600}
 nav button.active{background:#facc15}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 input,button{padding:10px;border-radius:12px;border:1px solid #ccc}
+
 .primary{background:#facc15;border:none;font-weight:700}
 .warn{background:#000;color:#fff;border:none}
 .danger{background:#dc2626;color:#fff;border:none}
+
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
+
 .stat{text-align:center;padding:25px}
 .stat h2{margin:0;color:#facc15;font-size:30px}
+
+@media print{
+body *{visibility:hidden}
+#bill,#bill *{visibility:visible}
+#bill{position:absolute;left:0;top:0;width:80mm}
+nav,header,.no-print{display:none}
+@page{size:80mm auto;margin:0}
+}
 </style>
 </head>
 
@@ -54,7 +81,7 @@ th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
 <div id="welcome"></div>
 </header>
 
-<nav>
+<nav class="no-print">
 <button class="active" onclick="openPage('dashboard',this)">Dashboard</button>
 <button onclick="openPage('products',this)">Products</button>
 <button onclick="openPage('sales',this)">Sales</button>
@@ -114,6 +141,9 @@ th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
 <!-- BILL -->
 <div id="bill" class="page">
 <div class="card" id="billCard">
+<div style="text-align:center;font-size:12px">
+<b>MAJEED & SONS</b><br>GENERAL ORDER SUPPLIERS<br><hr>
+</div>
 <b>Date:</b> <span id="bdate"></span><br>
 <b>Customer:</b> <span id="bcustomer"></span><br>
 <b>Number:</b> <span id="bphone"></span>
@@ -125,8 +155,8 @@ th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
 <h4>Paid: <span id="bpaid"></span></h4>
 <h4>Remaining: <span id="bremain"></span></h4>
 </div>
-<button class="primary" onclick="saveBill()">Save</button>
-<button class="warn" onclick="window.print()">Print</button>
+<button class="primary no-print" onclick="saveBill()">Save</button>
+<button class="warn no-print" onclick="window.print()">Print</button>
 </div>
 
 <!-- HISTORY -->
@@ -134,99 +164,117 @@ th,td{padding:6px;border-bottom:1px solid #eee;text-align:center}
 <div id="historyBox"></div>
 </div>
 
-<!-- ====== FIREBASE + LOGIC ====== -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
-
-/* FIREBASE CONFIG (YOURS – SAME) */
-const firebaseConfig={
-apiKey:"AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
-authDomain:"majeedsonsdatabase.firebaseapp.com",
-projectId:"majeedsonsdatabase",
-storageBucket:"majeedsonsdatabase.firebasestorage.app",
-messagingSenderId:"810169181128",
-appId:"1:810169181128:web:74f54e335be0f59db416fd"
-};
-
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-
-/* APP LOGIC (SAME FLOW) */
+<script>
 const LOGIN_PASSWORD="786";
-let products=[], history=[], cart=[];
+let products=JSON.parse(localStorage.products||"[]");
+let history=JSON.parse(localStorage.history||"[]");
+let cart=[];
 
-window.doLogin=()=>{if(passwordInput.value===LOGIN_PASSWORD){loginBox.style.display="none";welcome.innerHTML="Welcome";welcome.classList.add("show")}}
-window.openPage=(id,b)=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+function doLogin(){
+ if(passwordInput.value===LOGIN_PASSWORD){
+  loginBox.style.display="none";
+  welcome.innerHTML="Welcome";
+  welcome.classList.add("show");
+ }
+}
+
+function openPage(id,b){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
+}
 
 /* PRODUCTS */
-async function loadProducts(){
-products=[];
-const q=await getDocs(collection(db,"products"));
-q.forEach(d=>products.push({...d.data(),id:d.id}));
-renderProducts();updateDashboard();
+function addProduct(){
+ products.push({n:pname.value,c:pcost.value,s:psale.value,m:pmin.value});
+ localStorage.products=JSON.stringify(products);
+ renderProducts();updateDashboard();
 }
-window.addProduct=async()=>{
-await addDoc(collection(db,"products"),{n:pname.value,c:pcost.value,s:psale.value,m:pmin.value});
-loadProducts();
+function renderProducts(q=""){
+ plist.innerHTML="";
+ products.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()))
+ .forEach((p,i)=>plist.innerHTML+=`
+ <tr>
+ <td>${p.n}</td><td>${p.c}</td><td>${p.s}</td><td>${p.m}</td>
+ <td><button class="danger" onclick="products.splice(${i},1);localStorage.products=JSON.stringify(products);renderProducts();updateDashboard()">❌</button></td>
+ </tr>`);
 }
-window.renderProducts=(q="")=>{
-plist.innerHTML="";
-products.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()))
-.forEach(p=>plist.innerHTML+=`<tr><td>${p.n}</td><td>${p.c}</td><td>${p.s}</td><td>${p.m}</td><td><button class="danger" onclick="deleteProduct('${p.id}')">❌</button></td></tr>`);
-}
-window.deleteProduct=async(id)=>{await deleteDoc(doc(db,"products",id));loadProducts();}
 
 /* SALES */
-window.addSale=()=>{let t=sprice.value*sqty.value;cart.push({n:sname.value,q:sqty.value,p:sprice.value,t});renderSales()}
-function renderSales(){let s=0;slist.innerHTML="";cart.forEach((i,x)=>{s+=i.t;slist.innerHTML+=`<tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td><td><button onclick="cart.splice(${x},1);renderSales()">❌</button></td></tr>`});stotal.innerText=s;calcRemain()}
-window.calcRemain=()=>remain.innerText=stotal.innerText-(paid.value||0)
+function addSale(){
+ let t=sprice.value*sqty.value;
+ cart.push({n:sname.value,q:sqty.value,p:sprice.value,t});
+ renderSales();
+}
+function renderSales(){
+ let s=0;slist.innerHTML="";
+ cart.forEach((i,x)=>{
+ s+=i.t;
+ slist.innerHTML+=`
+ <tr>
+ <td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td>
+ <td><button onclick="cart.splice(${x},1);renderSales()">❌</button></td>
+ </tr>`;
+ });
+ stotal.innerText=s;calcRemain();
+}
+function calcRemain(){
+ remain.innerText=stotal.innerText-(paid.value||0);
+}
 
 /* BILL */
-window.generateBill=()=>{
-bdate.innerText=new Date().toLocaleString();
-bcustomer.innerText=cname.value;
-bphone.innerText=cphone.value||"-";
-bitems.innerHTML="";
-cart.forEach(i=>bitems.innerHTML+=`<tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`);
-btotal.innerText=stotal.innerText;
-bpaid.innerText=paid.value||0;
-bremain.innerText=remain.innerText;
-openPage('bill',document.querySelectorAll('nav button')[3]);
+function generateBill(){
+ bdate.innerText=new Date().toLocaleString();
+ bcustomer.innerText=cname.value;
+ bphone.innerText=cphone.value||"-";
+ bitems.innerHTML="";
+ cart.forEach(i=>bitems.innerHTML+=`
+ <tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`);
+ btotal.innerText=stotal.innerText;
+ bpaid.innerText=paid.value||0;
+ bremain.innerText=remain.innerText;
+ openPage('bill',document.querySelectorAll('nav button')[3]);
+}
+
+function saveBill(){
+ history.push({time:new Date().toLocaleString(),items:cart,total:stotal.innerText});
+ localStorage.history=JSON.stringify(history);
+ cart=[];renderHistory();updateDashboard();
 }
 
 /* HISTORY */
-window.saveBill=async()=>{
-await addDoc(collection(db,"bills"),{
-name:cname.value,
-phone:cphone.value,
-time:new Date().toLocaleString(),
-items:cart,
-total:stotal.innerText
-});
-cart=[];loadHistory();updateDashboard();
+function renderHistory(){
+ historyBox.innerHTML="";
+ history.forEach(h=>historyBox.innerHTML+=`
+ <div class="card"><b>${h.time}</b>
+ <table>${h.items.map(i=>`<tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`).join("")}</table>
+ <b>Total:</b>${h.total}</div>`);
 }
-async function loadHistory(){
-history=[];
-const q=await getDocs(collection(db,"bills"));
-q.forEach(d=>history.push({...d.data(),id:d.id}));
-historyBox.innerHTML="";
-history.forEach(h=>historyBox.innerHTML+=`
-<div class="card">
-<b>${h.time}</b><br>${h.name}
-<table>${h.items.map(i=>`<tr><td>${i.n}</td><td>${i.q}</td><td>${i.p}</td><td>${i.t}</td></tr>`).join("")}</table>
-<b>Total:</b> ${h.total}
-</div>`);
-updateDashboard();
-}
-
 function updateDashboard(){
-dProducts.innerText=products.length;
-dBills.innerText=history.length;
-dSales.innerText=history.reduce((a,b)=>a+Number(b.total||0),0);
+ dProducts.innerText=products.length;
+ dBills.innerText=history.length;
+ dSales.innerText=history.reduce((a,b)=>a+Number(b.total||0),0);
 }
 
-loadProducts();loadHistory();
+renderProducts();renderHistory();updateDashboard();
+</script>
+
+<!-- FIREBASE (SAFE – NO MODULE) -->
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics-compat.js"></script>
+<script>
+const firebaseConfig={
+ apiKey:"AIzaSyCDyeC1YMqFEm6b3eYYpV30eL-OkUilhwI",
+ authDomain:"majeedsonsdatabase.firebaseapp.com",
+ projectId:"majeedsonsdatabase",
+ storageBucket:"majeedsonsdatabase.firebasestorage.app",
+ messagingSenderId:"810169181128",
+ appId:"1:810169181128:web:74f54e335be0f59db416fd",
+ measurementId:"G-J4TS7FVYHR"
+};
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 </script>
 
 </body>
