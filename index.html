@@ -8,201 +8,65 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:Poppins;
-}
-body{
-  margin:0;
-  background:#e5e7eb; /* OLD light grey */
-}
+*{box-sizing:border-box;font-family:Poppins}
+body{margin:0;background:#e5e7eb}
 
-/* PAGES */
-.page{
-  display:none;
-  padding:15px;
-  opacity:0;
-  transform:translateY(15px);
-  transition:.35s ease;
-}
-.page.active{
-  display:block;
-  opacity:1;
-  transform:translateY(0);
-}
+.page{display:none;padding:15px;opacity:0;transform:translateY(15px);transition:.35s}
+.page.active{display:block;opacity:1;transform:translateY(0)}
 
-/* BUTTONS */
-button{
-  cursor:pointer;
-  transition:.15s ease;
-}
-button:active{transform:scale(.96);}
+button{cursor:pointer;transition:.15s}
+button:active{transform:scale(.96)}
 
-.primary{
-  background:#facc15;
-  border:none;
-  font-weight:700;
-}
-.warn{
-  background:#000;
-  color:#fff;
-  border:none;
-}
-.danger{
-  background:#b91c1c;
-  color:#fff;
-  border:none;
-}
+.primary{background:#facc15;border:none;font-weight:700}
+.warn{background:#000;color:#fff;border:none}
+.danger{background:#b91c1c;color:#fff;border:none}
 
-/* CARD */
-.card{
-  background:#fff;
-  padding:15px;
-  border-radius:14px;
-  margin-bottom:15px;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-}
+.card{background:#fff;padding:15px;border-radius:14px;margin-bottom:15px;box-shadow:0 6px 18px rgba(0,0,0,.15)}
 
-/* LOGIN */
-#loginBox{
-  position:fixed;
-  inset:0;
-  background:#000;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-#loginBox h1{color:#facc15;}
-#loginBox input{
-  padding:14px;
-  width:260px;
-  border-radius:12px;
-  border:none;
-  text-align:center;
-}
-#loginBox button{
-  margin-top:15px;
-  padding:12px 40px;
-  border-radius:12px;
-  background:#facc15;
-  font-weight:700;
-}
+#loginBox{position:fixed;inset:0;background:#000;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+#loginBox h1{color:#facc15}
+#loginBox input{padding:14px;width:260px;border-radius:12px;border:none;text-align:center}
+#loginBox button{margin-top:15px;padding:12px 40px;border-radius:12px;background:#facc15;font-weight:700}
 
-/* HEADER */
-header{
-  background:#000;
-  color:#fff;
-  text-align:center;
-  padding:15px;
-}
-header h1{
-  margin:0;
-  color:#facc15;
-}
-#welcome{
-  margin-top:10px;
-  font-weight:600;
-  opacity:0;
-  transform:scale(.7);
-  transition:.8s;
-}
-#welcome.show{
-  opacity:1;
-  transform:scale(1);
-}
+header{background:#000;color:#fff;text-align:center;padding:15px}
+header h1{margin:0;color:#facc15}
+#welcome{margin-top:10px;font-weight:600;opacity:0;transform:scale(.7);transition:.8s}
+#welcome.show{opacity:1;transform:scale(1)}
 
-/* NAV */
-nav{
-  display:flex;
-  gap:6px;
-  justify-content:center;
-  flex-wrap:wrap;
-  background:#111;
-  padding:10px;
-}
-nav button{
-  border:none;
-  padding:8px 16px;
-  border-radius:10px;
-  font-weight:600;
-  background:#e5e7eb;
-}
-nav button.active{
-  background:#facc15;
-  color:#000;
-}
+nav{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;background:#111;padding:10px}
+nav button{border:none;padding:8px 16px;border-radius:10px;font-weight:600;background:#e5e7eb}
+nav button.active{background:#facc15;color:#000}
 
-/* INPUTS */
-input{
-  padding:10px;
-  border-radius:10px;
-  border:1px solid #999;
-}
+input{padding:10px;border-radius:10px;border:1px solid #999}
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 
-/* TABLE */
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-}
-th{
-  background:#000;
-  color:#facc15;
-}
-th,td{
-  padding:6px;
-  border-bottom:1px solid #ddd;
-  text-align:center;
-}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#000;color:#facc15}
+th,td{padding:6px;border-bottom:1px solid #ddd;text-align:center}
 
-/* DASHBOARD */
-.stat{
-  text-align:center;
-  padding:25px;
-}
-.stat h2{
-  margin:0;
-  font-size:30px;
-  color:#facc15;
-}
+.stat{text-align:center;padding:25px}
+.stat h2{margin:0;font-size:30px;color:#facc15}
 
-/* BILL ANIMATION */
 @keyframes successPop{
   0%{transform:scale(.9);opacity:0}
   60%{transform:scale(1.05);opacity:1}
   100%{transform:scale(1)}
 }
-.bill-animate{
-  animation:successPop .4s ease;
-  box-shadow:0 0 0 2px #facc15;
-}
+.bill-animate{animation:successPop .4s ease;box-shadow:0 0 0 2px #facc15}
 
-/* PRINT */
 @media print{
-  body *{visibility:hidden;}
-  #bill,#bill *{visibility:visible;}
-  #bill{position:absolute;left:0;top:0;width:80mm;}
-  nav,header,.no-print{display:none;}
-  @page{size:80mm auto;margin:0;}
+  body *{visibility:hidden}
+  #bill,#bill *{visibility:visible}
+  #bill{position:absolute;left:0;top:0;width:80mm}
+  nav,header,.no-print{display:none}
+  @page{size:80mm auto;margin:0}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔽 🔽 🔽  YAHAN SE AAGE **100% TUMHARA ORIGINAL CODE** HAI 🔽 🔽 🔽 -->
-
-<!-- LOGIN -->
 <div id="loginBox">
 <h1>MAJEED & SONS</h1>
 <input id="passwordInput" type="password" placeholder="Password" />
@@ -223,8 +87,95 @@ th,td{
 <button onclick="openPage('history',this)">Bills History</button>
 </nav>
 
-<!-- 👉 AAGE POORA CODE BILKUL SAME HAI (JS + Firebase unchanged) -->
-<!-- 👉 Tumhara diya hua JS + Firebase code yahin rahega -->
+<div id="dashboard" class="page active">
+<div class="grid">
+<div class="card stat"><h2 id="dProducts">0</h2><small>Total Products</small></div>
+<div class="card stat"><h2 id="dBills">0</h2><small>Total Bills</small></div>
+<div class="card stat"><h2 id="dSales">0</h2><small>Total Sales</small></div>
+</div>
+</div>
+
+<div id="products" class="page"><div class="card">
+<input placeholder="Search product" oninput="renderProducts(this.value)">
+<div class="grid">
+<input id="pname" placeholder="Product Name">
+<input id="pcost" placeholder="Cost">
+<input id="psale" placeholder="Sale">
+<input id="pmin" placeholder="Min">
+<button class="primary" onclick="addProduct()">Save</button>
+</div>
+<table><thead><tr><th>Name</th><th>Cost</th><th>Sale</th><th>Min</th><th>❌</th></tr></thead>
+<tbody id="plist"></tbody></table>
+</div></div>
+
+<div id="sales" class="page"><div class="card">
+<input id="cname" placeholder="Customer Name">
+<input id="sname" placeholder="Product">
+<div class="grid">
+<input id="sprice" placeholder="Price">
+<input id="sqty" placeholder="Qty">
+<button class="primary" onclick="addSale()">Add</button>
+</div>
+<table><tbody id="slist"></tbody></table>
+<b>Total: <span id="stotal">0</span></b>
+<button class="primary" onclick="generateBill()">Generate Bill</button>
+</div></div>
+
+<div id="bill" class="page">
+<div class="card bill-animate" id="billCard">
+<h3>Total: <span id="btotal"></span></h3>
+</div>
+<button class="primary no-print" onclick="window.print()">Print</button>
+</div>
+
+<div id="history" class="page"><div id="historyBox"></div></div>
+
+<script>
+const LOGIN_PASSWORD="786";
+let products=JSON.parse(localStorage.products||"[]");
+let history=JSON.parse(localStorage.history||"[]");
+let cart=[];
+
+function doLogin(){
+  if(passwordInput.value===LOGIN_PASSWORD){
+    loginBox.style.display="none";
+    welcome.innerHTML="بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْم";
+    setTimeout(()=>welcome.classList.add("show"),200);
+  }
+}
+
+function openPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+function addProduct(){
+  products.push({n:pname.value,c:pcost.value,s:psale.value,m:pmin.value});
+  localStorage.products=JSON.stringify(products);
+  renderProducts();
+}
+function renderProducts(q=""){
+  plist.innerHTML="";
+  products.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()))
+  .forEach((p,i)=>plist.innerHTML+=`
+  <tr><td>${p.n}</td><td>${p.c}</td><td>${p.s}</td><td>${p.m}</td>
+  <td><button class="danger" onclick="products.splice(${i},1);localStorage.products=JSON.stringify(products);renderProducts()">❌</button></td></tr>`);
+}
+
+function addSale(){
+  let t=sprice.value*sqty.value;
+  cart.push({n:sname.value,t});
+  stotal.innerText=Number(stotal.innerText)+t;
+}
+
+function generateBill(){
+  btotal.innerText=stotal.innerText;
+  openPage('bill',document.querySelectorAll('nav button')[3]);
+}
+renderProducts();
+</script>
 
 </body>
 </html>
